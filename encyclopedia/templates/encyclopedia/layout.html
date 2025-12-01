@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'encyclopedia/styles.css' %}" rel="stylesheet">
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="{% static '/media/fontisto_wikipedia.png' %}" type="image/x-icon" />
+        <meta name="description" content="Design of a Wikipedia-like online encyclopedia that anyone can edit.">
+        <link rel="canonical" href="https://rodrigojmayer.pythonanywhere.com/">
+        <link rel="favicon" href="{% static '/media/fontisto_wikipedia.png' %}">
+        <link rel="apple-touch-icon" href="{% static '/media/fontisto_wikipedia.png' %}">
+        <!-- <meta name="theme-color" content="#FFDB15"> -->
+        <meta name="twitter:card" content="summary">
+        <meta property="og:type" content="website">
+        <meta property="og:title" name="twitter:title" content="Wiki RJM">
+        <!-- <meta property="og:image" name="twitter:image"
+            content="https://rjmauctions.pythonanywhere.com/media/Frame 43.png"> -->
+        <meta property="og:image" name="twitter:image"
+            content="{% static '/media/wiki-hero-image-home.png' %}">
+        <meta property="og:url" name="twitter:url" content="https://rodrigojmayer.pythonanywhere.com/">
+        <meta property="og:description" name="twitter:description"
+            content="Design of a Wikipedia-like online encyclopedia that anyone can edit.">
+    </head>
+    <body>
+        <div class="row">
+            <div class="sidebar">
+                <h2>Wiki</h2>
+                
+                <form method="GET" action="{% url 'encyclopedias:search' %}">
+                    <!--{% csrf_token %}-->
+                    <input type="text" name="q" placeholder="Search Encyclopedia" autocomplete=off>
+                </form>
+                <div>
+                    <a href="{% url 'encyclopedias:index' %}">Home</a>
+                </div>
+                <div>
+                    <a href="{% url 'encyclopedias:create' %}">Create New Page</a>
+                </div>
+                <div>
+                    <a href="{% url 'encyclopedias:random_entry' %}">Random Page</a>
+                </div>
+                {% block nav %}
+                {% endblock %}
+            </div>
+            <div class="main">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+
+    </body>
+</html>
