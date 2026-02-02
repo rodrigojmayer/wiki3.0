@@ -49,7 +49,11 @@ if not DEBUG:
     # Obligamos a que use HTTPS para evitar conflictos de seguridad
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
-
+else:
+    # Configuración para tu PC
+    ALLOWED_HOSTS = ['*']
+    SECURE_SSL_REDIRECT = False  # <--- Esto deshabilita el HTTPS forzoso localmente
+    
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:    
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
