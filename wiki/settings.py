@@ -34,15 +34,21 @@ DEBUG = 'RENDER' not in os.environ
 # ALLOWED_HOSTS = ['wiki3-0-0yba.onrender.com', 'localhost', '127.0.0.1']
  
  # Si DEBUG es False, Django necesita saber qué dominios son seguros.
+# if not DEBUG:
+#     ALLOWED_HOSTS = [
+#         'wiki3-0-0yba.onrender.com',
+#         'localhost',
+#         '127.0.0.1',
+#         '.onrender.com' # Esto permite cualquier subdominio de render
+#     ]
+# else:
+#     ALLOWED_HOSTS = ['*']
+
 if not DEBUG:
-    ALLOWED_HOSTS = [
-        'wiki3-0-0yba.onrender.com',
-        'localhost',
-        '127.0.0.1',
-        '.onrender.com' # Esto permite cualquier subdominio de render
-    ]
-else:
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['*'] # Permitimos todo momentáneamente para destrabar
+    # Obligamos a que use HTTPS para evitar conflictos de seguridad
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:    
@@ -153,3 +159,20 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Turn on WhiteNoise storage backend that takes care of compressing static files
 # and creating unique names for each version so they can safely be cached forever.
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Al final de tu settings.py agrega esto:
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
