@@ -31,8 +31,19 @@ DEBUG = 'RENDER' not in os.environ
 # DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['wiki3-0-0yba.onrender.com', 'localhost', '127.0.0.1']
+# ALLOWED_HOSTS = ['wiki3-0-0yba.onrender.com', 'localhost', '127.0.0.1']
  
+ # Si DEBUG es False, Django necesita saber qué dominios son seguros.
+if not DEBUG:
+    ALLOWED_HOSTS = [
+        'wiki3-0-0yba.onrender.com',
+        'localhost',
+        '127.0.0.1',
+        '.onrender.com' # Esto permite cualquier subdominio de render
+    ]
+else:
+    ALLOWED_HOSTS = ['*']
+
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:    
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
